@@ -1,0 +1,24 @@
+# Based on https://github.com/AlexxIT/hassio-addons/blob/master/go2rtc/config.yaml
+name: go2rtc (patched)
+description: go2rtc with configurable Docker subnet filter (GO2RTC_DOCKER_NETS)
+url: https://github.com/luiseok/go2rtc
+image: ghcr.io/luiseok/go2rtc
+arch: [ amd64, aarch64, i386, armv7 ]
+
+# https://developers.home-assistant.io/docs/add-ons/configuration
+# Must match the GHCR image tag (git tag v1.9.15-p1 -> image tag 1.9.15-p1)
+version: 1.9.15-p1
+slug: go2rtc_patched
+init: false
+startup: system
+host_network: true
+homeassistant_api: true
+video: true
+audio: true
+ingress: true
+ingress_port: 1984
+panel_icon: mdi:camera-wireless
+map: [ "config:rw", "media", "ssl" ]
+environment:
+  # Skip only HAOS internal bridges (hassio, docker0), keep LAN in 172.16.0.0/12
+  GO2RTC_DOCKER_NETS: "172.30.32.0/23,172.30.232.0/23"
